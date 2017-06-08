@@ -19,7 +19,7 @@ function RadarChart(id, data, options) {
 	 opacityCircles: 0.1, 	//The opacity of the circles of each blob
 	 strokeWidth: 2, 		//The width of the stroke around each blob
 	 roundStrokes: false,	//If true the area and stroke will follow a round path (cardinal-closed)
-	 color: d3.scale.category10()	//Color function
+	 color: d3.schemeCategory10	//Color function
 	};
 	
 	//Put all of the options into a variable called cfg
@@ -39,7 +39,7 @@ function RadarChart(id, data, options) {
 		angleSlice = Math.PI * 2 / total;		//The width in radians of each "slice"
 	
 	//Scale for the radius
-	var rScale = d3.scale.linear()
+	var rScale = d3.scaleLinear()
 		.range([0, radius])
 		.domain([0, maxValue]);
 		
@@ -137,13 +137,12 @@ function RadarChart(id, data, options) {
 	/////////////////////////////////////////////////////////
 	
 	//The radial line function
-	var radarLine = d3.svg.line.radial()
-		.interpolate("linear-closed")
-		.radius(function(d) { return rScale(d.value); })
+       var radarLine = d3.radialLine()
+        .curve(d3.curveLinearClosed)		.radius(function(d) { return rScale(d.value); })
 		.angle(function(d,i) {	return i*angleSlice; });
 		
 	if(cfg.roundStrokes) {
-		radarLine.interpolate("cardinal-closed");
+		radarLine.curve(d3.curveCardinalClosed);
 	}
 				
 	//Create a wrapper for the blobs	
@@ -193,7 +192,7 @@ function RadarChart(id, data, options) {
 		.attr("r", cfg.dotRadius)
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-		.style("fill", function(d,i,j) { return cfg.color(j); })
+		.style("fill", function(d,i) {return d.colour;})
 		.style("fill-opacity", 0.8);
 
 	/////////////////////////////////////////////////////////
@@ -211,10 +210,10 @@ function RadarChart(id, data, options) {
 		.data(function(d,i) { return d; })
 		.enter().append("circle")
 		.attr("class", "radarInvisibleCircle")
-		.attr("r", cfg.dotRadius*1.5)
+		.attr("r", cfg.dotRadius*1.1)
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-		.style("fill", "none")
+		.style("fill", function(d,i) {return d.colour;})
 		.style("pointer-events", "all")
 		.on("mouseover", function(d,i) {
 			newX =  parseFloat(d3.select(this).attr('cx')) - 10;
@@ -225,6 +224,7 @@ function RadarChart(id, data, options) {
 				.attr('y', newY)
 				.text(Format(d.value))
 				.transition().duration(200)
+				.style("stroke", d.colour)
 				.style('opacity', 1);
 		})
 		.on("mouseout", function(){

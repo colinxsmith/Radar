@@ -119,7 +119,7 @@ function getData(lines) {
     var prop, curr, fac;
     var obj = 0;
     var startup = 1;
-    var colours = ["grey", "blue"];
+    var colours = ["grey"];
     var nport = 2
       , iport = 0
       , dataport = []
@@ -136,7 +136,9 @@ function getData(lines) {
         line = lines[i].split(",");
         if (daryl_original && line.length == 3) {
             //Daryl's original data
-            if (startup && (lines[i].match(/Factor/) || lines[i].match(/Current/) || lines[i].match(/Proposed/))) {
+			colours = ["grey", "blue"];
+			nport = 2;
+           if (startup && (lines[i].match(/Factor/) || lines[i].match(/Current/) || lines[i].match(/Proposed/))) {
                 //This allows for a different ordering
                 if (line[0] == "Factor")
                     fac = 0;
@@ -234,7 +236,14 @@ function getData(lines) {
     //////////////////// Draw the Chart ////////////////////////// 
     ////////////////////////////////////////////////////////////// 
 
-    var colour = d3.scale.ordinal().range(colours);
+    var colour = d3.scaleOrdinal().range(colours);
+    for(i=0;i<nport;++i)
+    {
+		for(j=0;j<obj;++j)
+		{
+			data[i][j].colour=colours[i];
+		}
+	}
 
     var radarChartOptions = {
         w: width,
