@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-        <title>Smoothed D3.js Radar Chart</title>
+        <title>Smoothed D3.js Radar Chart in v4</title>
         <!-- Google fonts -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -17,11 +17,25 @@
                 text-align: center;
                 text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
                 cursor: default;
+                padding:10px;
             }
 
-            p {
-                font-size: 20px;
+            h1 {
+                font-size: 40px;
                 text-align: center;
+                font-weight:500;
+				margin:0;
+				margin-bottom:10px;
+				padding-left:5px;
+				color:#53483e;
+            }
+            p {
+                font-size: 30px;
+                text-align: center;
+				margin:0;
+				margin-bottom:10px;
+				padding-left:5px;
+				color:#917e6b;
             }
 
 
@@ -38,9 +52,11 @@
     <body>
         <script src="radarChart.js"></script>
         <script src="bita.js"></script>
+        <h1>Radar plots</h1>
         <p id='lab1'>
-            <img src="bitaanim.gif" alt="BITA">
-            <input type="file" accept="text/csv" onchange="openFile(event)">
+           <img src="bitaanim.gif" alt="BITA">
+		   Select files on the client
+             <input type="file" accept="text/csv" onchange="openFile(event)">
             <select id='listfile'>
                 <option value="">Don't list input</option>
                 <option value="list">List data input</option>
