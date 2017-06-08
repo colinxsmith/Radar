@@ -136,9 +136,9 @@ function getData(lines) {
         line = lines[i].split(",");
         if (daryl_original && line.length == 3) {
             //Daryl's original data
-			colours = ["grey", "blue"];
-			nport = 2;
-           if (startup && (lines[i].match(/Factor/) || lines[i].match(/Current/) || lines[i].match(/Proposed/))) {
+            colours = ["grey", "blue"];
+            nport = 2;
+            if (startup && (lines[i].match(/Factor/) || lines[i].match(/Current/) || lines[i].match(/Proposed/))) {
                 //This allows for a different ordering
                 if (line[0] == "Factor")
                     fac = 0;
@@ -181,7 +181,7 @@ function getData(lines) {
                 for (j = 0; j < nport; ++j) {
                     portlab += line[j + 1] + ',';
                 }
-                portlab=portlab.replace(/,$/,'');
+                portlab = portlab.replace(/,$/, '');
                 portlab += '<br>';
             } else if (line[0].match(/olour/)) {
                 for (j = 0; j < nport; ++j) {
@@ -237,13 +237,11 @@ function getData(lines) {
     ////////////////////////////////////////////////////////////// 
 
     var colour = d3.scaleOrdinal().range(colours);
-    for(i=0;i<nport;++i)
-    {
-		for(j=0;j<obj;++j)
-		{
-			data[i][j].colour=colours[i];
-		}
-	}
+    for (i = 0; i < nport; ++i) {
+        for (j = 0; j < obj; ++j) {
+            data[i][j].colour = colours[i];
+        }
+    }
 
     var radarChartOptions = {
         w: width,
