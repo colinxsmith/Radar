@@ -149,6 +149,7 @@ function RadarChart(id, data, options) {
 	var blobWrapper = g.selectAll(".radarWrapper")
 		.data(data)
 		.enter().append("g")
+		.attr("data-index", function(d, i) {return i; })
 		.attr("class", "radarWrapper");
 			
 	//Append the backgrounds	
@@ -192,7 +193,10 @@ function RadarChart(id, data, options) {
 		.attr("r", cfg.dotRadius)
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-		.style("fill", function(d,i) {return d.colour;})
+		.style("fill", function(d,i,j) {
+			var jj = this.parentNode.getAttribute("data-index");
+			return cfg.color(jj);
+			})
 		.style("fill-opacity", 0.8);
 
 	/////////////////////////////////////////////////////////
@@ -203,6 +207,7 @@ function RadarChart(id, data, options) {
 	var blobCircleWrapper = g.selectAll(".radarCircleWrapper")
 		.data(data)
 		.enter().append("g")
+		.attr("data-index", function(d, i) {return i; })
 		.attr("class", "radarCircleWrapper");
 		
 	//Append a set of invisible circles on top for the mouseover pop-up
@@ -213,7 +218,10 @@ function RadarChart(id, data, options) {
 		.attr("r", cfg.dotRadius*1.1)
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-		.style("fill", function(d,i) {return d.colour;})
+		.style("fill", function(d,i,j) {
+			var jj = this.parentNode.getAttribute("data-index");
+			return cfg.color(jj);
+			})
 		.style("pointer-events", "all")
 		.on("mouseover", function(d,i) {
 			newX =  parseFloat(d3.select(this).attr('cx')) - 10;
@@ -224,7 +232,11 @@ function RadarChart(id, data, options) {
 				.attr('y', newY)
 				.text(Format(d.value))
 				.transition().duration(200)
-				.style("stroke", d.colour)
+/*		.style("fill", function(d,i,j) {
+			var jj = this.getAttribute("data-index");
+			return cfg.color(jj);
+			})*/
+			.style("fill",d.colour)
 				.style('opacity', 1);
 		})
 		.on("mouseout", function(){
@@ -234,6 +246,8 @@ function RadarChart(id, data, options) {
 		
 	//Set up the small tooltip for when you hover over a circle
 	var tooltip = g.append("text")
+/*		.data(data)
+		.attr("data-index", function(d, i) {return i; })*/
 		.attr("class", "tooltip")
 		.style("opacity", 0);
 	
