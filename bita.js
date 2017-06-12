@@ -237,11 +237,6 @@ function getData(lines) {
     ////////////////////////////////////////////////////////////// 
 
     var colour = d3.scaleOrdinal().range(colours);
-    for (i = 0; i < nport; ++i) {
-        for (j = 0; j < obj; ++j) {
-            data[i][j].colour = colours[i];
-        }
-    }
 
     var radarChartOptions = {
         w: width,

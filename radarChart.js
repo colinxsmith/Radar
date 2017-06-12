@@ -149,7 +149,7 @@ function RadarChart(id, data, options) {
 	var blobWrapper = g.selectAll(".radarWrapper")
 		.data(data)
 		.enter().append("g")
-		.attr("data-index", function(d, i) {return i; })
+		.attr("data-index", function(d, i) {return i;})
 		.attr("class", "radarWrapper");
 			
 	//Append the backgrounds	
@@ -224,30 +224,24 @@ function RadarChart(id, data, options) {
 			})
 		.style("pointer-events", "all")
 		.on("mouseover", function(d,i) {
-			newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-			newY =  parseFloat(d3.select(this).attr('cy')) - 10;
-					
+			var newX =  parseFloat(d3.select(this).attr('cx')) - 10,
+			newY =  parseFloat(d3.select(this).attr('cy')) - 10,
+			fill =  d3.select(this).style('fill');
 			tooltip
 				.attr('x', newX)
 				.attr('y', newY)
 				.text(Format(d.value))
 				.transition().duration(200)
-/*		.style("fill", function(d,i,j) {
-			var jj = this.getAttribute("data-index");
-			return cfg.color(jj);
-			})*/
-			.style("fill",d.colour)
+				.style("fill",fill)
 				.style('opacity', 1);
-		})
-		.on("mouseout", function(){
-			tooltip.transition().duration(200)
-				.style("opacity", 0);
-		});
+			})
+			.on("mouseout", function(){
+				tooltip.transition().duration(200)
+					.style("opacity", 0);
+			});
 		
 	//Set up the small tooltip for when you hover over a circle
 	var tooltip = g.append("text")
-/*		.data(data)
-		.attr("data-index", function(d, i) {return i; })*/
 		.attr("class", "tooltip")
 		.style("opacity", 0);
 	
