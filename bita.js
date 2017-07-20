@@ -264,12 +264,13 @@ function loadFile(datafile) {
     xhttp.send();
 }
 function loadFiled3(datafile) {
+	var err=0;
     d3.text(datafile, function(error, text) {
-        if (error)
-            throw error;
+		err=error;
         var lines = text.split('\n');
         getData(lines);
     });
+    return err;
 }
 var openFile = function(event) {
     //for testing locally using files on the client
