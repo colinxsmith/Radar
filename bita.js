@@ -265,8 +265,8 @@ function loadFile(datafile) {
 }
 function loadFiled3(datafile) {
 	var err=0;
-    d3.text(datafile, function(error, text) {
-		err=error;
+    //d3.text(datafile, function(error, text) {
+    d3.text(datafile).then( function(text) {
         var lines = text.split('\n');
         getData(lines);
     });
